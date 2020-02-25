@@ -13,6 +13,9 @@ The spectral data is to heavy to be hosted by Github. Please use the links below
 
 ## 1. MLP with Integrated Parameters
 
+[Jupyter notebook](notebooks/01_MLP_with_integrated_parameters.ipynb) **|**
+[Colab notebook](https://drive.google.com/open?id=1__yKUuyMvFgGfN9jrqbMtwZyCUg0neXh)
+
 This models uses integrated parameters (e.g., Hs, Tp, Dp, Winds) to correct poorly predicted wave directions by WW3.
 
 The model is a multilayer perceptron (MLP) with 2 hidden layers and 512 hidden units per layer.
@@ -25,10 +28,10 @@ This model achieves a r-score of 0.67 after 1024 epochs on test data.
 
 ![](plots/results_mlp_wavepar.png)
 
-[Jupyter notebook](notebooks/01_ML_with_integrated_parameters.ipynb)
-[Colab notebook](https://drive.google.com/open?id=1__yKUuyMvFgGfN9jrqbMtwZyCUg0neXh)
-
 ## 2. MLP with Spectral Data
+
+[Jupyter notebook](notebooks/02_MLP_with_spectral_data.ipynb) **|**
+[Colab notebook](https://drive.google.com/open?id=1yjB3YypUCGyb0haz9OimRK07drYhf8Bf)
 
 This model uses the flattened wave spectra to correct poorly predicted wave directions by WW3.
 
@@ -40,25 +43,24 @@ The model is a multilayer perceptron with 2 hidden layers and 64 hidden units pe
 
 This model achieves a r-score of 0.87 after 1024 epochs on test data.
 
-[Jupyter notebook](notebooks/02_MLP_with_spectral_data.ipynb)
-[Colab notebook](https://drive.google.com/open?id=1yjB3YypUCGyb0haz9OimRK07drYhf8Bf)
-
 ![](plots/results_mlp_spc.png)
 
 ## 3. CNN with Spectral Data
 
+[Jupyter notebook](notebooks/03_CNN_with_spectral_data.ipynb) **|**
+[Colab notebook](https://drive.google.com/open?id=1YGCJLvlo8wdi_mY8ietL4ENPydSuGMd)
+
 This models uses the wave spectrum (in its 2d form) to correct poorly predicted wave directions by WW3.
 
 The model is a convolutional neural network (CNN) build based upon the VGG network. There are 3 VVG8 blocks with increasing number of convolutional filters and two fully connected layers.
+
+![](plots/fig_cnn_spc.png)
 
 [Tensorflow architecture](plots/arc_cnn_spc.png)
 
 This model achieves a r-score of 0.87 after 64 epochs on test data.
 
 Note: this model is too heavy to run on CPU.
-
-[Jupyter notebook](notebooks/03_CNN_with_spectral_data.ipynb)
-[Colab notebook](https://drive.google.com/open?id=1YGCJLvlo8wdi_mY8ietL4ENPydSuGMd)
 
 ![](plots/results_cnn_spc.png)
 
