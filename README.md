@@ -1,8 +1,7 @@
 # Improving WW3 Results with Machine Learning
 
-This repository contains the models used in the paper: Improving WaveWatchIII Outputs with Machine Learning current under review in Coastal Engineering.
+This repository contains the models used in the paper: *Improving WaveWatchIII Outputs with Machine Learning* currently under review in *Coastal Engineering*.
 
-There are 3 main notebooks in this repository:
 
 ## Downloading data
 
@@ -18,6 +17,8 @@ This models uses integrated parameters (e.g., Hs, Tp, Dp, Winds) to correct poor
 
 The model is a multilayer perceptron (MLP) with 2 hidden layers and 512 hidden units per layer.
 
+![](plots/fig_mlp_wavepar.png)
+
 [Tensorflow architecture](plots/arc_mlp_wavepar.png)
 
 This model achieves a r-score of 0.67 after 1024 epochs on test data.
@@ -25,7 +26,6 @@ This model achieves a r-score of 0.67 after 1024 epochs on test data.
 ![](plots/results_mlp_wavepar.png)
 
 [Jupyter notebook](notebooks/01_ML_with_integrated_parameters.ipynb)
-
 [Colab notebook](https://drive.google.com/open?id=1__yKUuyMvFgGfN9jrqbMtwZyCUg0neXh)
 
 ## 2. MLP with Spectral Data
@@ -33,6 +33,8 @@ This model achieves a r-score of 0.67 after 1024 epochs on test data.
 This model uses the flattened wave spectra to correct poorly predicted wave directions by WW3.
 
 The model is a multilayer perceptron with 2 hidden layers and 64 hidden units per layer.
+
+![](plots/fig_mlp_spc.png)
 
 [Tensorflow architecture](plots/arc_mlp_spc.png)
 
@@ -86,6 +88,7 @@ How do the models fare predicting data that they have never seen? Not too well.
 | MLP (par) | 0.77 | 10.62 | 0.77 | 0.25  | 0.74  | 63.82     |
 | MLP (spc) | 0.90 | 7.05  | 0.90 | -0.06 | 0.86  | 36.36     |
 | CNN       | 0.93 | 5.68  | 0.93 | 0.48  | 0.94  | 14.95     |
+
 
 ## 5. Pre-trained models
 
