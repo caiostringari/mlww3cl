@@ -2,7 +2,6 @@
 
 This repository contains the models used in the paper: *Improving WaveWatchIII Outputs with Machine Learning* currently under review in *Coastal Engineering*.
 
-
 ## Downloading data
 
 The spectral data is to heavy to be hosted by Github. Please use the links below to download the data:
@@ -10,6 +9,9 @@ The spectral data is to heavy to be hosted by Github. Please use the links below
 1. Integrated parameters: https://drive.google.com/open?id=1CI0h-tqoHJbTnkj0H_oMZkGQHyur7ase
 
 2. Spectral data: https://drive.google.com/open?id=1OD43Jyc5Uf8fXbAXYMr0DyPnZSTr0OA6
+
+
+**Note:** All tests split the data into 70% training and 30% testing. All models have a dropout rate of 25% after each fully connected hidden layer (or max pooling layer) to help with overfitting.
 
 ## 1. MLP with Integrated Parameters
 
@@ -58,23 +60,21 @@ The model is a convolutional neural network (CNN) build based upon the VGG netwo
 
 [Tensorflow architecture](plots/arc_cnn_spc.png)
 
-This model achieves a r-score of 0.87 after 64 epochs on test data.
+This model achieves a r-score of 0.93 after 64 epochs on test data.
 
 Note: this model is too heavy to run on CPU.
 
 ![](plots/results_cnn_spc.png)
 
-All tests split the data into 70  training and 30 testing. All models have a dropout rate of 0.25 after each hidden layer to help with overfitting.
-
 ## 4. Results:
 
 ### 4.1 Predictions on known timeseries data
 
+[Jupyter notebook](notebooks/04_comparison_with_known_data.ipynb)
+
 How do the models fare predicting data that they have seen? very well.
 
 ![](plots/comparison_known_data.png)
-
-[Jupyter notebook](notebooks/04_comparison_with_known_data.ipynb)
 
 ### 4.2 Predictions on unknown timeseries data
 
