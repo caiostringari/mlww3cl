@@ -12,21 +12,25 @@ The spectral data is to heavy to be hosted by Github. Please use the links below
 
 2. Spectral data: https://drive.google.com/open?id=1OD43Jyc5Uf8fXbAXYMr0DyPnZSTr0OA6
 
-## 1. Improving WW3 Forecasts with Machine Learning - MLP with Integrated Parameters
+## 1. MLP with Integrated Parameters
 
 This models uses integrated parameters (e.g., Hs, Tp, Dp, Winds) to correct poorly predicted wave directions by WW3.
 
-The model is a multilayer perceptron with 2 hidden layers and 512 hidden units per layer.
+The model is a multilayer perceptron (MLP) with 2 hidden layers and 512 hidden units per layer.
+
+![](plots/arc_mlp_wavepar.png)
 
 This model achieves a r-score of 0.67 after 1024 epochs on test data.
 
 ![](plots/results_mlp_wavepar.png)
 
-## 2. Improving WW3 Forecasts with Machine Learning - Spectral MLP
+## 2. MLP with Spectral Data
 
 This model uses the flattened wave spectra to correct poorly predicted wave directions by WW3.
 
 The model is a multilayer perceptron with 2 hidden layers and 64 hidden units per layer.
+
+![](plots/arc_mlp_spc.png)
 
 This model achieves a r-score of 0.87 after 1024 epochs on test data.
 
@@ -34,11 +38,13 @@ Colab notebook:
 
 ![](plots/results_mlp_spc.png)
 
-## 3. Improving WW3 Forecasts with Machine Learning - Spectral CNN
+## 3. CNN with Spectral Data
 
-This models uses the whole (flattened) wave spectrum to correct poorly predicted wave directions by WW3.
+This models uses the wave spectrum (in its 2d form) to correct poorly predicted wave directions by WW3.
 
-The model is a convolutional neural network build based upon the VGG network. There are 3 VVG8 blocks with increasing number of convolutional filters and
+The model is a convolutional neural network (CNN) build based upon the VGG network. There are 3 VVG8 blocks with increasing number of convolutional filters and two fully connected layers.
+
+![](plots/arc_cnn_spc.png)
 
 This model achieves a r-score of 0.87 after 64 epochs on test data.
 
@@ -52,9 +58,10 @@ All tests split the data into 70  training and 30 testing. All models have a dro
 
 ## 4. Results:
 
-### 4.1 Predictions on known data
+### 4.1 Predictions on known timeseries data
 
-### 4.2 Predictions on unknown data
+
+### 4.2 Predictions on unknown timeseries data
 
 ### 4.3 Summary table (test+train data)
 
