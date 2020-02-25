@@ -50,7 +50,7 @@ This model achieves a r-score of 0.87 after 1024 epochs on test data.
 ## 3. CNN with Spectral Data
 
 [Jupyter notebook](notebooks/03_CNN_with_spectral_data.ipynb) **|**
-[Colab notebook](https://drive.google.com/open?id=1YGCJLvlo8wdi_mY8ietL4ENPydSuGMd)
+[Colab notebook](https://drive.google.com/open?id=1YGCJLvlo8wdi_mY8ietL4ENPydSuGMd-)
 
 This models uses the wave spectrum (in its 2d form) to correct poorly predicted wave directions by WW3.
 
