@@ -24,7 +24,7 @@ This model achieves a r-score of 0.67 after 1024 epochs on test data.
 
 ![](plots/results_mlp_wavepar.png)
 
-[Jupyter notebook](notebooks\01_ML_with_integrated_parameters.ipynb)
+[Jupyter notebook](notebooks/01_ML_with_integrated_parameters.ipynb)
 
 [Colab notebook](https://drive.google.com/open?id=1__yKUuyMvFgGfN9jrqbMtwZyCUg0neXh)
 
@@ -38,7 +38,7 @@ The model is a multilayer perceptron with 2 hidden layers and 64 hidden units pe
 
 This model achieves a r-score of 0.87 after 1024 epochs on test data.
 
-[Jupyter notebook](notebooks\02_MLP_with_spectral_data.ipynb)
+[Jupyter notebook](notebooks/02_MLP_with_spectral_data.ipynb)
 [Colab notebook](https://drive.google.com/open?id=1yjB3YypUCGyb0haz9OimRK07drYhf8Bf)
 
 ![](plots/results_mlp_spc.png)
@@ -55,7 +55,7 @@ This model achieves a r-score of 0.87 after 64 epochs on test data.
 
 Note: this model is too heavy to run on CPU.
 
-[Jupyter notebook](notebooks\03_CNN_with_spectral_data.ipynb)
+[Jupyter notebook](notebooks/03_CNN_with_spectral_data.ipynb)
 [Colab notebook](https://drive.google.com/open?id=1YGCJLvlo8wdi_mY8ietL4ENPydSuGMd)
 
 ![](plots/results_cnn_spc.png)
@@ -70,7 +70,7 @@ How do the models fare predicting data that they have seen? very well.
 
 ![](plots/comparison_known_data.png)
 
-[Jupyter notebook](notebooks\04_comparison_with_known_data.ipynb)
+[Jupyter notebook](notebooks/04_comparison_with_known_data.ipynb)
 
 ### 4.2 Predictions on unknown timeseries data
 
