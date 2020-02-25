@@ -18,11 +18,15 @@ This models uses integrated parameters (e.g., Hs, Tp, Dp, Winds) to correct poor
 
 The model is a multilayer perceptron (MLP) with 2 hidden layers and 512 hidden units per layer.
 
-![](plots/arc_mlp_wavepar.png)
+[Tensorflow architecture](plots/arc_mlp_wavepar.png)
 
 This model achieves a r-score of 0.67 after 1024 epochs on test data.
 
 ![](plots/results_mlp_wavepar.png)
+
+[Jupyter notebook](notebooks\01_ML_with_integrated_parameters.ipynb)
+
+[Colab notebook](https://drive.google.com/open?id=1__yKUuyMvFgGfN9jrqbMtwZyCUg0neXh)
 
 ## 2. MLP with Spectral Data
 
@@ -30,11 +34,12 @@ This model uses the flattened wave spectra to correct poorly predicted wave dire
 
 The model is a multilayer perceptron with 2 hidden layers and 64 hidden units per layer.
 
-![](plots/arc_mlp_spc.png)
+[Tensorflow architecture](plots/arc_mlp_spc.png)
 
 This model achieves a r-score of 0.87 after 1024 epochs on test data.
 
-Colab notebook:
+[Jupyter notebook](notebooks\02_MLP_with_spectral_data.ipynb)
+[Colab notebook](https://drive.google.com/open?id=1yjB3YypUCGyb0haz9OimRK07drYhf8Bf)
 
 ![](plots/results_mlp_spc.png)
 
@@ -44,13 +49,14 @@ This models uses the wave spectrum (in its 2d form) to correct poorly predicted 
 
 The model is a convolutional neural network (CNN) build based upon the VGG network. There are 3 VVG8 blocks with increasing number of convolutional filters and two fully connected layers.
 
-![](plots/arc_cnn_spc.png)
+[Tensorflow architecture](plots/arc_cnn_spc.png)
 
 This model achieves a r-score of 0.87 after 64 epochs on test data.
 
 Note: this model is too heavy to run on CPU.
 
-Colab notebook: https://drive.google.com/open?id=1YGCJLvlo8wdi_mY8ietL4ENPydSuGMd-
+[Jupyter notebook](notebooks\03_CNN_with_spectral_data.ipynb)
+[Colab notebook](https://drive.google.com/open?id=1YGCJLvlo8wdi_mY8ietL4ENPydSuGMd)
 
 ![](plots/results_cnn_spc.png)
 
@@ -60,8 +66,17 @@ All tests split the data into 70  training and 30 testing. All models have a dro
 
 ### 4.1 Predictions on known timeseries data
 
+How do the models fare predicting data that they have seen? very well.
+
+![](plots/comparison_known_data.png)
+
+[Jupyter notebook](notebooks\04_comparison_with_known_data.ipynb)
 
 ### 4.2 Predictions on unknown timeseries data
+
+How do the models fare predicting data that they have never seen? Not too well.
+
+![](plots/comparison_new_data.png)
 
 ### 4.3 Summary table (test+train data)
 
@@ -74,8 +89,8 @@ All tests split the data into 70  training and 30 testing. All models have a dro
 
 ## 5. Pre-trained models
 
-1. [MLP with integrated parameters](pre-trained\MLP.h5)
+1. [MLP with integrated parameters](pre-trained/MLP.h5)
 
-2. [MLP with spectral data](pre-trained\SPC_MLP.h5)
+2. [MLP with spectral data](pre-trained/SPC_MLP.h5)
 
-3. [CNN with spectral data](pre-trained\CNN.h5)
+3. [CNN with spectral data](pre-trained/CNN.h5)
