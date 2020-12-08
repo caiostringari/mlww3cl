@@ -32,6 +32,8 @@ The neural nets look something like this:
 
 ## 2. Training
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JiNAzjf1RRQDTbYDpIfpez4g8rdZNYSv?usp=sharing) **\|** [![Jupyter Notebook](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](notebook/train.ipynb)
+
 Training the models is done using the same script: ```train.py```. For help, do:
 
 ```bash
@@ -74,12 +76,14 @@ python train.py --help
 
 To obtain the results seen in the paper do:
 
+Manually:
+
 ```bash
-python train.py --type "mlp_parametric" --model "MLP_PAR_HTD" -i "data/wave_data.csv" --logdir  "logs/MLP_PAR" --epochs 1024 --layers 2 --neurons 512 --learning-rate 0.0001 --random-state 42 --test-size 0.25
+python train.py --type "mlp_parametric" --model "MLP_PAR_HTD" -i "data/wave_data.csv" --logdir  "logs/MLP_PAR" --epochs 2048 --layers 2 --neurons 512 --learning-rate 0.0001 --random-state 42 --test-size 0.25
 ```
 
 ```bash
-python train.py --type "mlp_parametric" --model "MLP_PAR_HTD" -i "data/wave_data.csv" --logdir  "logs/MLP_SPC" --epochs 128 --learning-rate 0.0001 --random-state 42 --test-size 0.25
+python train.py --type "mlp_spectral" --model "MLP_SPC_HTD" -i "data/wave_data.csv" --logdir  "logs/MLP_SPC" --layers 3 --neurons 128 --epochs 1024 --learning-rate 0.0001 --random-state 42 --test-size 0.25
 ```
 
 ```bash
@@ -91,33 +95,49 @@ python train.py --type "cnn_spectral" --model "CNN_SPC_HTD" -i "data/wave_data.c
 
 ### 3.1. Training curves
 
+#### a) `MLP_PAR_HTD`
+```bash
+tensorboard --logdir "logs/MLP_PAR/MLP_PAR_HTD/"
+```
+
+#### b) `MLP_SPC_HTD`
+```bash
+tensorboard --logdir "logs/MLP_SPC/MLP_SPC_HTD/"
+```
+
+#### c) `CNN_SPC_HTD`
+```bash
+tensorboard --logdir "logs/CNN_SCP/CNN_SPC_HTD/"
+```
+
 
 ### 3.2. Metrics
 
+TABLE HERE
+
 To reproduce the results in the paper, do:
 
+#### a) `MLP_PAR_HTD`
 ```bash
 python metrics.py -i "data/predictions_mlp_par.csv" -o "data/metrics_mlp_par.csv"
 ```
 
+#### b) `MLP_SPC_HTD`
 ```bash
 python metrics.py -i "data/predictions_mlp_spc.csv" -o "data/metrics_mlp_spc.csv"
 ```
 
+#### c) `CNN_SPC_HTD`
 ```bash
 python metrics.py -i "data/predictions_mlp_par.csv" -o "data/metrics_mlp_spc.csv"
 ```
 
+
 ### 3.3. Timeseries
 
 ```bash
-python timeseries.py
+python timeseries.py -i "data/MLP_PAR/predictions.csv" -ID "BCurau" -o "metrics_mlp_par.png" --start "2013-03-01 00:00:00" --duration "120"
 ```
-
-
-
-
-
 
 
 <!-- [Jupyter notebook](notebooks/01_MLP_with_integrated_parameters.ipynb) **|**
@@ -154,8 +174,7 @@ This model achieves a r-score of 0.87 after 1024 epochs on test data.
 
 ## 3. CNN with Spectral Data
 
-[Jupyter notebook](notebooks/03_CNN_with_spectral_data.ipynb) **|**
-[Colab notebook](https://drive.google.com/open?id=1YGCJLvlo8wdi_mY8ietL4ENPydSuGMd-)
+
 
 This models uses the wave spectrum (in its 2d form) to correct poorly predicted wave directions by WW3.
 
