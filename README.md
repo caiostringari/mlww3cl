@@ -2,20 +2,125 @@
 
 This repository contains the models used in the paper: *Improving WaveWatchIII Outputs with Machine Learning* currently under review in *Coastal Engineering*.
 
-## Downloading data
+# Data
 
-The spectral data is to heavy to be hosted by Github. Please use the links below to download the data:
+The  data is to heavy to be hosted by Github. Please use the links below to download it.
 
-1. Integrated parameters: https://drive.google.com/open?id=1CI0h-tqoHJbTnkj0H_oMZkGQHyur7ase
-
-2. Spectral data: https://drive.google.com/open?id=1OD43Jyc5Uf8fXbAXYMr0DyPnZSTr0OA6
+Google drive link here.
 
 
-**Note:** All tests split the data into 70% training and 30% testing. All models have a dropout rate of 25% after each fully connected hidden layer (or max pooling layer) to help with overfitting.
+## 1. Model Architecture
 
-## 1. MLP with Integrated Parameters
+Three models are architectures are available:
 
-[Jupyter notebook](notebooks/01_MLP_with_integrated_parameters.ipynb) **|**
+### a) `MLP_PAR_HTD`
+
+Multilayer Perceptron (MLP) trained using integrated wave parameters (`Hm0`, `Tm01`, `Tm02`, `Dm`, `Spd`) and wind (`U10`, `V10`) as inputs.
+
+### b) `MLP_SPC_HTD`
+
+Multilayer Perceptron (MLP) trained using the flattened wave spectrum as inputs.
+
+### c) `CNN_SPC_HTD`
+
+Convolutional Neural Network (CNN) based on the `VGG16` architecture and using the wave spectrum in two-dimensional form.
+
+The neural nets look something like this:
+
+![](figures/Neural_Nets.png)
+
+
+## 2. Training
+
+Training the models is done using the same script: ```train.py```. For help, do:
+
+```bash
+python train.py --help
+```
+
+<details>
+  <summary> Options are (click to expand): </summary>
+
+  - `-i, --data`: Input data (.csv).
+
+  - `-m, --model`:  Model name.
+
+  - `-t, --type`: Model type. Possible choices are: `cnn_spectral`, `mlp_parametric` or `mlp_spectral`.
+
+  - `--logdir`: Logging directory for `Tensorboard`.
+
+  - `--random-state`: Random state. Used for reproducibility.
+
+  - `--test-size`:  Test set size. Default is 0.3.
+
+  - `--layers`: Number of layers for MLP models. Default is 3.
+
+  - `-neurons`: Number of neurons per layer for MLP models. Default is 256.
+
+  - `--learning-rate`: Learning rate for ADAM. Default is 10E-6.
+
+  - `--dropout`: Dropout rate. Default is 0.25.
+
+  - `--epochs`: Number of training epochs. Default is 128.
+
+  - `--batch-size`: Batch size. Default is 2048.
+
+  - `--stratify`:  Use class stratification (by location name). Default is True.
+
+  - `--input-size`: 2d-spectrum size for CNN models. Default is 32x24.
+
+</details>
+<br/>
+
+To obtain the results seen in the paper do:
+
+```bash
+python train.py --type "mlp_parametric" --model "MLP_PAR_HTD" -i "data/wave_data.csv" --logdir  "logs/MLP_PAR" --epochs 1024 --layers 2 --neurons 512 --learning-rate 0.0001 --random-state 42 --test-size 0.25
+```
+
+```bash
+python train.py --type "mlp_parametric" --model "MLP_PAR_HTD" -i "data/wave_data.csv" --logdir  "logs/MLP_SPC" --epochs 128 --learning-rate 0.0001 --random-state 42 --test-size 0.25
+```
+
+```bash
+python train.py --type "cnn_spectral" --model "CNN_SPC_HTD" -i "data/wave_data.csv" --logdir "logs/CNN_SCP" --epochs 256 --batch-size 128
+```
+
+## 3. Evaluation
+
+
+### 3.1. Training curves
+
+
+### 3.2. Metrics
+
+To reproduce the results in the paper, do:
+
+```bash
+python metrics.py -i "data/predictions_mlp_par.csv" -o "data/metrics_mlp_par.csv"
+```
+
+```bash
+python metrics.py -i "data/predictions_mlp_spc.csv" -o "data/metrics_mlp_spc.csv"
+```
+
+```bash
+python metrics.py -i "data/predictions_mlp_par.csv" -o "data/metrics_mlp_spc.csv"
+```
+
+### 3.3. Timeseries
+
+```bash
+python timeseries.py
+```
+
+
+
+
+
+
+
+<!-- [Jupyter notebook](notebooks/01_MLP_with_integrated_parameters.ipynb) **|**
 [Colab notebook](https://drive.google.com/open?id=1__yKUuyMvFgGfN9jrqbMtwZyCUg0neXh)
 
 This models uses integrated parameters (e.g., Hs, Tp, Dp, Winds) to correct poorly predicted wave directions by WW3.
@@ -98,4 +203,4 @@ How do the models fare predicting data that they have never seen? Not too well.
 
 2. [MLP with spectral data](pre-trained/SPC_MLP.h5)
 
-3. [CNN with spectral data](pre-trained/CNN.h5)
+3. [CNN with spectral data](pre-trained/CNN.h5) -->
