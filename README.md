@@ -93,22 +93,12 @@ python train.py --type "cnn_spectral" --model "CNN_SPC_HTD" -i "data/wave_data.c
 
 ### 3.1. Training curves
 
-#### a) `MLP_PAR_HTD` [![Open In TensorBoard](https://colab.research.google.com/assets/colab-badge.svg)](404)
+![https://tensorboard.dev/experiment/1u57MejQQDGP2pr8JcM0Cg/](figures/tensorboard.png)
+
 
 ```bash
-tensorboard --logdir "logs/MLP_PAR/MLP_PAR_HTD/"
+tensorboard dev upload --logdir "logs/" --name "Improving WW3 Results with Machine Learning" --description "This board contains the training curves for the models used in the paper: Improving WaveWatchIII Outputs with Machine Learning currently under review in Coastal Engineering"
 ```
-
-#### b) `MLP_SPC_HTD` [![Open In TensorBoard](https://colab.research.google.com/assets/colab-badge.svg)](404)
-```bash
-tensorboard --logdir "logs/MLP_SPC/MLP_SPC_HTD/"
-```
-
-#### c) `CNN_SPC_HTD` [![Open In TensorBoard](https://colab.research.google.com/assets/colab-badge.svg)](404)
-```bash
-tensorboard --logdir "logs/CNN_SCP/CNN_SPC_HTD/"
-```
-
 
 ### 3.2. Metrics
 
@@ -128,7 +118,7 @@ python metrics.py -i "data/MLP_PAR/predictions.csv" -o "data/MLP_PAR/metrics.csv
 | Tp [s]   | 1.67  | 0.96 | 1.26  | 0.71 | 15.16 | 8.29 | -0.9  | 0     | 0.65 | 0.81 |
 | Dm [Deg] | 17.85 | 9.19 | 13.84 | 7.05 | 5.36  | 2.84 | 10.42 | 0.32  | 0.75 | 0.91 |
 
-**Test**
+**Valid**
 
 |          | RMSE  |      | MAE   |      | MAPE  |       | Bias  |       | r    |     |
 |----------|-------|------|-------|------|-------|-------|-------|-------|------|-----|
@@ -138,7 +128,7 @@ python metrics.py -i "data/MLP_PAR/predictions.csv" -o "data/MLP_PAR/metrics.csv
 | Dm [Deg] | 17.94 | 9.57 | 13.81 | 7.11 | 5.52  | 3.04  | 10.31 | 0.27  | 0.76 | 0.9 |
 
 
-**Valid**
+**Test**
 
 |          | RMSE  |      | MAE   |      | MAPE  |       | Bias  |       | r    |      |
 |----------|-------|------|-------|------|-------|-------|-------|-------|------|------|
@@ -155,12 +145,13 @@ python metrics.py -i "data/MLP_SPC/predictions.csv" -o "data/MLP_SPC/metrics.csv
 
 **Train**
 
-| RMSE  |      | MAE   |      | MAPE  |      | Bias  |       | r    |      |
-|-------|------|-------|------|-------|------|-------|-------|------|------|
-| WW3   | ML   | WW3   | ML   | WW3   | ML   | WW3   | ML    | WW3  | ML   |
-| 0.57  | 0.19 | 0.45  | 0.13 | 34.28 | 8.87 | -0.29 | 0.01  | 0.78 | 0.97 |
-| 1.67  | 0.5  | 1.26  | 0.37 | 15.18 | 4.32 | -0.91 | 0.03  | 0.65 | 0.95 |
-| 17.99 | 4.1  | 13.91 | 2.81 | 5.45  | 1.21 | 10.47 | -0.07 | 0.75 | 0.98 |
+|          | RMSE  |      | MAE   |      | MAPE  |      | Bias  |       | r    |      |
+|----------|-------|------|-------|------|-------|------|-------|-------|------|------|
+|          | WW3   | ML   | WW3   | ML   | WW3   | ML   | WW3   | ML    | WW3  | ML   |
+| Hs [m]   | 0.57  | 0.19 | 0.45  | 0.13 | 34.28 | 8.87 | -0.29 | 0.01  | 0.78 | 0.97 |
+| Tp [s]   | 1.67  | 0.5  | 1.26  | 0.37 | 15.18 | 4.32 | -0.91 | 0.03  | 0.65 | 0.95 |
+| Dm [Deg] | 17.99 | 4.1  | 13.91 | 2.81 | 5.45  | 1.21 | 10.47 | -0.07 | 0.75 | 0.98 |
+
 
 **Valid**
 
