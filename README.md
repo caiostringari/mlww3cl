@@ -93,7 +93,7 @@ python train.py --type "cnn_spectral" --model "CNN_SPC_HTD" -i "data/wave_data.c
 
 ### 3.1. Training curves
 
-![https://tensorboard.dev/experiment/1u57MejQQDGP2pr8JcM0Cg/](figures/tensorboard.png)
+[![](figures/tensorboard.png)](https://tensorboard.dev/experiment/1u57MejQQDGP2pr8JcM0Cg/)
 
 
 ```bash
