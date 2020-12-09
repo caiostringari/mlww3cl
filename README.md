@@ -6,7 +6,9 @@ This repository contains the models used in the paper: *Improving WaveWatchIII O
 
 The  data is to heavy to be hosted by Github. Please use the links below to download it.
 
-Google drive link here.
+
+
+[![](figures/google_drive_badge.svg)](https://drive.google.com/file/d/1fHsQECCZCBUwcljb1l7iUSWvwZqSlY1e/view?usp=sharing)
 
 
 ## 1. Model Architecture
@@ -87,6 +89,15 @@ python train.py --type "mlp_spectral" --model "MLP_SPC_HTD" -i "data/wave_data.c
 ```bash
 python train.py --type "cnn_spectral" --model "CNN_SPC_HTD" -i "data/wave_data.csv" --logdir "logs/CNN_SCP" --epochs 256 --batch-size 128
 ```
+
+## 2.2. Pre-trained
+
+| Model                     | Link                                                                                                                     | Alternative link |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------- |
+| `MLP_PAR`           | [![](figures/google_drive_badge.svg)](https://drive.google.com/drive/folders/1alCK5D25gSZOG-FvdQ9TfhF_nPhaRBav?usp=sharing) | Upcoming                |
+| `MLP_SPC`           | [![](figures/google_drive_badge.svg)](https://drive.google.com/drive/folders/1Y6thNWlRbz1qLbfgpK9n-cDyjBqR7J3C?usp=sharing) | Upcoming                |
+| `CNN_PAR`             | [![](figures/google_drive_badge.svg)](https://drive.google.com/drive/folders/1gML_k8R3TxD7kcCdxsThX0rGPYrc4oWA?usp=sharing) | Upcoming                |
+
 
 ## 3. Evaluation
 
@@ -212,11 +223,13 @@ python metrics.py -i "data/CNN_SPC/predictions.csv" -o "data/CNN_SPC/metrics.csv
 ```bash
 python timeseries.py -i "data/MLP_PAR/predictions.csv" -ID "BCurau" -o "metrics_mlp_par.png" --start "2013-03-01 00:00:00" --duration "120"
 ```
+
 ![](figures/Bcurau.png)
 
 #### b) Lebu
 
 ```bash
 python timeseries.py -i "data/CNN_SPC/predictions.csv" -ID "ALebu" -o "ALebu.png" --start "2011-12-01 00:00:00" --duration "60"
+
 ```
 ![](figures/ALebu.png)
