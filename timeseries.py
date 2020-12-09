@@ -119,7 +119,7 @@ if __name__ == '__main__':
 
     # duration
     parser.add_argument("--duration", "-dt", action="store", dest="dt",
-                        required=True, help="Duration in days.", default="all")
+                        required=False, help="Duration in days.", default="all")
 
     # output data
     parser.add_argument("--output", "-o", action="store", dest="output",

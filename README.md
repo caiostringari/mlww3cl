@@ -207,6 +207,16 @@ python metrics.py -i "data/CNN_SPC/predictions.csv" -o "data/CNN_SPC/metrics.csv
 
 ### 3.3. Timeseries
 
+#### a) Curau
+
 ```bash
 python timeseries.py -i "data/MLP_PAR/predictions.csv" -ID "BCurau" -o "metrics_mlp_par.png" --start "2013-03-01 00:00:00" --duration "120"
 ```
+![](figures/Bcurau.png)
+
+#### b) Lebu
+
+```bash
+python timeseries.py -i "data/CNN_SPC/predictions.csv" -ID "ALebu" -o "ALebu.png" --start "2011-12-01 00:00:00" --duration "60"
+```
+![](figures/ALebu.png)
