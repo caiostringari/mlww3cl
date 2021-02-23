@@ -1,6 +1,6 @@
 # Improving WW3 Results with Machine Learning
 
-This repository contains the models used in the paper: *Improving WaveWatchIII Outputs with Machine Learning* currently under review in *Coastal Engineering*.
+This repository contains the models used in the paper: *Improving WaveWatchIII Hindcasts with Machine Learning* currently under review in *Coastal Engineering*.
 
 # Data
 
@@ -11,11 +11,11 @@ The  data is to heavy to be hosted by Github. Please use the links below to down
 [![](figures/google_drive_badge.svg)](https://drive.google.com/file/d/1fHsQECCZCBUwcljb1l7iUSWvwZqSlY1e/view?usp=sharing)
 
 
-## 1. MLP<sub>PAR</sub>
+## 1. Model architecture
 
 Three models are architectures are available:
 
-### a) `MLP_PAR`
+### a) MLP<sub>PAR</sub>
 
 Multilayer Perceptron (MLP) trained using integrated wave parameters (`Hm0`, `Tm01`, `Tm02`, `Dm`, `Spd`) and wind (`U10`, `V10`) as inputs.
 
