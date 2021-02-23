@@ -115,9 +115,9 @@ tensorboard dev upload --logdir "logs/" --name "Improving WW3 Results with Machi
 
 To reproduce the results in the paper, do:
 
-#### a) `MLP_PAR_HTD`
+#### a) `MLP_PAR`
 ```bash
-python metrics.py -i "data/MLP_PAR/predictions.csv" -o "data/MLP_PAR/metrics.csv"
+python metrics.py -i "data/predictions_mlp_par.csv" -o "data/metrics_mlp_par.csv"
 ```
 
 **Train**
@@ -149,9 +149,9 @@ python metrics.py -i "data/MLP_PAR/predictions.csv" -o "data/MLP_PAR/metrics.csv
 | Dm [Deg] | 17.89 | 9.35 | 13.84 | 7.13 | 5.36  | 2.87  | 10.35 | 0.13  | 0.75 | 0.9  |
 
 
-#### b) `MLP_SPC_HTD`
+#### b) `MLP_SPC`
 ```bash
-python metrics.py -i "data/MLP_SPC/predictions.csv" -o "data/MLP_SPC/metrics.csv"
+python metrics.py -i "data/predictions_mlp_spc.csv" -o "data/metrics_mlp_spc.csv"
 ```
 
 **Train**
@@ -183,9 +183,9 @@ python metrics.py -i "data/MLP_SPC/predictions.csv" -o "data/MLP_SPC/metrics.csv
 | Dm [Deg] | 17.72 | 5.86 | 13.73 | 4.23 | 5.32  | 1.7   | 10.36 | -0.03 | 0.76 | 0.96 |
 
 
-#### c) `CNN_SPC_HTD`
+#### c) `CNN_SPC`
 ```bash
-python metrics.py -i "data/CNN_SPC/predictions.csv" -o "data/CNN_SPC/metrics.csv"
+python metrics.py -i "data/predictions_cnn_spc.csv" -o "data/metrics_cnn_spc.csv"
 ```
 
 **Train**
@@ -216,20 +216,38 @@ python metrics.py -i "data/CNN_SPC/predictions.csv" -o "data/CNN_SPC/metrics.csv
 | Dm [Deg] | 17.74 | 4.76 | 13.74 | 3.5  | 5.32  | 1.41 | 10.35 | -0.29 | 0.76 | 0.98 |
 
 
+#### Regressions
+
+Use `python regressions.py --help` for usage.
+
+```bash
+python regressions.py -i "data/predictions_mlp_par.csv" "data/predictions_mlp_spc.csv" "data/predictions_cnn_spc.csv" -o "figures/regressions.png"
+```
+![](figures/regressions.png)
+
+#### Bar charts
+
+Use `python bars.py --help` for usage.
+
+```bash
+python bars.py -i "data/metrics_mlp_par.csv" "data/metrics_mlp_spc.csv" "data/metrics_cnn_spc.csv" -o "figures/bars.png"
+```
+![](figures/bars.png)
+
 ### 3.3. Timeseries
+
+Use `python timeseries.py --help` for usage.
 
 #### a) Curau
 
 ```bash
-python timeseries.py -i "data/MLP_PAR/predictions.csv" -ID "BCurau" -o "metrics_mlp_par.png" --start "2013-03-01 00:00:00" --duration "120"
+python timeseries.py -i "data/predictions_mlp_par.csv" "data/predictions_mlp_spc.csv" "data/predictions_cnn_spc.csv" --names "$MLP_{PAR}$" "$MLP_{SPC}$" "$CNN_{SPC}$" -ID "BCurau" -o "figures/BCurau.svg" --start "2013-04-01 00:00:00" --duration "60"
 ```
-
-![](figures/Bcurau.png)
+![](figures/BCurau.svg)
 
 #### b) Lebu
 
 ```bash
-python timeseries.py -i "data/CNN_SPC/predictions.csv" -ID "ALebu" -o "ALebu.png" --start "2011-12-01 00:00:00" --duration "60"
-
+python timeseries.py -i "data/predictions_mlp_par.csv" "data/predictions_mlp_spc.csv" "data/predictions_cnn_spc.csv" --names "$MLP_{PAR}$" "$MLP_{SPC}$" "$CNN_{SPC}$" -ID "BCurau" -o "ALebu.png" --start "2011-12-01 00:00:00" --duration "60"
 ```
-![](figures/ALebu.png)
+![](figures/ALebu.svg)

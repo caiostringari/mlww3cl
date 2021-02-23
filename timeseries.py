@@ -24,8 +24,18 @@ mpl.rcParams['patch.edgecolor'] = "k"
 
 def main():
     """Excute the main program."""
+    if len(args.input) != len(args.names):
+        raise IOError("Input error. Please provide the same number of model "
+                       "names as the number of input files.")
+
     # read and select
-    df = pd.read_csv(args.input, index_col="time")
+    dfs = []
+    for inp, name in zip(args.input, args.names):
+        df = pd.read_csv(inp, index_col="time")
+        df["model"] = name
+        dfs.append(df)
+    df = pd.concat(dfs)
+
     locations = list(df["location"].unique())
 
     df = df.loc[df["location"] == args.loc_id]
@@ -39,7 +49,7 @@ def main():
 
     # sort
     df.sort_index(inplace=True)
-    time = pd.to_datetime(df.index.values).to_pydatetime()
+
 
     # parse start date
     if args.start == "all":
@@ -56,20 +66,30 @@ def main():
 
     # plot
     fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 8), sharex=True)
+    colors = sns.color_palette("deep").as_hex()
 
-    ax1.plot(time, df["Hs_buoy"], color="0.5", label="Observation")
-    ax1.plot(time, df["Hs_wavewatch"], color="#ff4100", label="WW3")
-    ax1.plot(time, df["Hs_prediction"], color="#018b8b", label="ML")
+    i = 1
+    for model, mdf in df.groupby("model"):
+        time = pd.to_datetime(mdf.index.values).to_pydatetime()
+        ax1.scatter(time, mdf["Hs_buoy"], facecolor="k", edgecolor="k",
+                    label="Observation", s=20)
+        ax1.plot(time, mdf["Hs_wavewatch"], color=colors[0], label="WW3")
+        ax1.plot(time, mdf["Hs_prediction"], label=model, color=colors[i])
+
+        ax2.scatter(time, mdf["Tp_buoy"], facecolor="k", edgecolor="k",
+                    label="Observation", s=20)
+        ax2.plot(time, mdf["Tp_wavewatch"], color=colors[0])
+        ax2.plot(time, mdf["Tp_prediction"], label=model, color=colors[i])
+
+        ax3.scatter(time, mdf["Dm_buoy"], facecolor="k", edgecolor="k",
+                    label="Observation", s=20)
+        ax3.plot(time, mdf["Dm_wavewatch"], color=colors[0])
+        ax3.plot(time, mdf["Dm_prediction"], label=model, color=colors[i])
+
+        i += 1
+
     ax1.set_ylabel(r"$Hm_0$ $[m]$")
-
-    ax2.plot(time, df["Tp_buoy"], color="0.5")
-    ax2.plot(time, df["Tp_wavewatch"], color="#ff4100")
-    ax2.plot(time, df["Tp_prediction"], color="#018b8b")
     ax2.set_ylabel(r"$Tm_{01}$ $[s]$")
-
-    ax3.plot(time, df["Dm_buoy"], color="0.5")
-    ax3.plot(time, df["Dm_wavewatch"], color="#ff4100")
-    ax3.plot(time, df["Dm_prediction"], color="#018b8b")
     ax3.set_ylabel(r"$Dm$ $[^o]$")
 
     # set axes
@@ -86,7 +106,10 @@ def main():
             tick.set_fontsize(12)
         ax.xaxis.get_offset_text().set_size(12)
 
-    lg = fig.legend(ncol=3, loc="lower center")
+    handles, labels = ax1.get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))
+    lg = fig.legend(by_label.values(), by_label.keys(),
+                    ncol=len(args.names)+2, loc="upper center")
     lg.get_frame().set_color("w")
 
     fig.tight_layout()
@@ -101,8 +124,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     # input data
-    parser.add_argument("--input", "-i", action="store", dest="input",
-                        required=True, help="Input data (.csv).",)
+    parser.add_argument("--input", "-i", nargs="*", action="store",
+                        dest="input", required=True,
+                        help="Input data (.csv).",)
+    # input data
+    parser.add_argument("--names", "-n", nargs="*", action="store",
+                        dest="names", required=False, default=["ML"],
+                        help="Model names.",)
 
     parser.add_argument("--subset", "-s", action="store", dest="subset",
                         required=False, help="Data subset (train, test, val).",

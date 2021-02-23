@@ -92,7 +92,7 @@ def vgg_block(layer_in, n_filters, n_conv):
     return layer_in
 
 
-def summarize_predictions(data, model, scaler, X, ytrue, subset, idx):
+def summarize_predictions(data, model, X, ytrue, subset, idx=np.array([None])):
     """Apply the model and return a dataframe with predictions."""
 
     yhat = np.squeeze(model.predict(X))
@@ -104,32 +104,49 @@ def summarize_predictions(data, model, scaler, X, ytrue, subset, idx):
     dm_true_rescaled = np.rad2deg(y_true_rescaled + np.pi)
 
     # rescale Hs and TP
-    hs_tp_pred_rescaled = scaler.inverse_transform(yhat[:, 2:])
-    hs_tp_true_rescaled = scaler.inverse_transform(ytrue[:, 2:])
-    hs_pred_rescaled = hs_tp_pred_rescaled[:, 0]
-    tp_pred_rescaled = hs_tp_pred_rescaled[:, 1]
-    hs_true_rescaled = hs_tp_true_rescaled[:, 0]
-    tp_true_rescaled = hs_tp_true_rescaled[:, 1]
+    hs_pred_rescaled = min_max_scaler_inverse_transform(yhat[:, 2], max=10)
+    tp_pred_rescaled = min_max_scaler_inverse_transform(yhat[:, 3], max=20)
+    hs_true_rescaled = min_max_scaler_inverse_transform(ytrue[:, 2], max=10)
+    tp_true_rescaled = min_max_scaler_inverse_transform(ytrue[:, 3], max=20)
 
     # build a dataframe
     cols = ["Hs_buoy", "Hs_prediction",
             "Tp_buoy", "Tp_prediction",
             "Dm_buoy", "Dm_prediction"]
-    X = np.vstack([hs_true_rescaled, hs_pred_rescaled,
+    x = np.vstack([hs_true_rescaled, hs_pred_rescaled,
                    tp_true_rescaled, tp_pred_rescaled,
                    dm_true_rescaled, dm_pred_rescaled]).T
-    df = pd.DataFrame(X, columns=cols)
+    df = pd.DataFrame(x, columns=cols)
     df["subset"] = subset
 
     # add extra varibles for later plots
-    df.index = data.iloc[idx].index.values
-    df.index.name = "time"
-    df["location"] = data.iloc[idx]["ID"].values
-    df["Hs_wavewatch"] = data.iloc[idx]["Hm0_mod"]
-    df["Tp_wavewatch"] = data.iloc[idx]["Tm1_mod"]
-    df["Dm_wavewatch"] = data.iloc[idx]["Dm_mod"]
+    if idx[0]:
+        df.index = data.iloc[idx].index.values
+        df.index.name = "time"
+        df["location"] = data.iloc[idx]["ID"].values
+        df["Hs_wavewatch"] = data.iloc[idx]["Hm0_mod"]
+        df["Tp_wavewatch"] = data.iloc[idx]["Tm1_mod"]
+        df["Dm_wavewatch"] = data.iloc[idx]["Dm_mod"]
+    else:
+        df.index = data.iloc[:].index.values
+        df.index.name = "time"
+        df["location"] = data.iloc[:]["ID"].values
+        df["Hs_wavewatch"] = data.iloc[:]["Hm0_mod"]
+        df["Tp_wavewatch"] = data.iloc[:]["Tm1_mod"]
+        df["Dm_wavewatch"] = data.iloc[:]["Dm_mod"]
 
     return df
+
+# Custom data scalers
+def min_max_scaler_transform(x, min=0, max=20):
+    """Scale x between -1 and 1."""
+    y = (2 * ((x-min) / (max-x.min()))) -1
+    return y
+
+def min_max_scaler_inverse_transform(x, min=0, max=20):
+    """Reserve the scaler."""
+    y = ((max-min)*((x+1)/2)) + min
+    return y
 
 
 def main():
@@ -151,13 +168,11 @@ def main():
 
     # --- Outputs ---
     if platform.system().lower() == "windows":
-        scaler_out = logdir + "\\" + "scaler.dat"
         checkpoint_path = logdir + "\\" + "best_epoch.h5"
         last_epoch = logdir + "\\" + "last_epoch.h5"
         history_path = logdir + "\\" + "history.csv"
         data_out = logdir + "\\" + "predictions.csv"
     else:
-        scaler_out = logdir + "/" + "scaler.dat"
         checkpoint_path = logdir + "/" + "best_epoch.h5"
         last_epoch = logdir + "/" + "last_epoch.h5"
         history_path = logdir + "/" + "history.csv"
@@ -203,16 +218,14 @@ def main():
         X = ds.values
 
     # prepare output array - Buoy data
-    # note that the value of Hs and Tp are normalized between -1 and 1 here
-    hs_tp_scaler = MinMaxScaler(feature_range=(-1, 1)).fit(df[["Hm0_obs",
-                                                               "Tm1_obs"]])
-    hs_tp = hs_tp_scaler.transform(df[["Hm0_obs", "Tm1_obs"]])
+    hs_scaled = min_max_scaler_transform(df["Hm0_obs"].values, max=10)
+    tp_scaled = min_max_scaler_transform(df["Tm1_obs"].values, max=20)
 
     # target data that we are trying to predict
     y = np.vstack([df["Dm_obs_sinx"].values,
                    df["Dm_obs_cosx"].values,
-                   hs_tp[:, 0],
-                   hs_tp[:, 1]]).T
+                   hs_scaled,
+                   tp_scaled]).T
 
     # Use the location names to split the dataset according to their
     # distribution.This avoid one location being left out the training
@@ -240,13 +253,17 @@ def main():
               X_train.shape[0], X_val.shape[0], X_test.shape[0]))
 
     # scale data 0-1 interval
-    xscaler = MinMaxScaler().fit(X_train)
-    X_train = xscaler.transform(X_train)
-    X_test = xscaler.transform(X_test)
-    X_val = xscaler.transform(X_val)
-    # X_all = xscaler.transform(X)
-    # save the scaler for later usage
-    dump(xscaler, scaler_out)
+    shape = X_train.shape
+    X_train = min_max_scaler_transform(X_train.flatten(), min=0, max=5)
+    X_train = X_train.reshape(shape)
+
+    shape = X_test.shape
+    X_test = min_max_scaler_transform(X_test.flatten(), min=0, max=5)
+    X_test = X_test.reshape(shape)
+
+    shape = X_val.shape
+    X_val = min_max_scaler_transform(X_val.flatten(), min=0, max=5)
+    X_val = X_val.reshape(shape)
 
     # --- Model ---
 
@@ -351,11 +368,11 @@ if __name__ == '__main__':
                         dest="test_size", default=0.3, required=False,
                         help="Test set size. Default is 0.3",)
 
-    # learning rate
+    # layers
     parser.add_argument("--layers", "-nl", action="store", dest="nlayers",
                         default=3, required=False,
                         help="Number of layers. Only for MLPs.",)
-    # learning rate
+    # neuros
     parser.add_argument("--neurons", "-nn", action="store", dest="nneurons",
                         default=512, required=False,
                         help="Number of neurons per layer. Only for MLPs.",)
@@ -406,7 +423,7 @@ if __name__ == '__main__':
     model_type = args.model_type
     if model_type not in ["cnn_spectral", "mlp_parametric", "mlp_spectral"]:
         raise IOError(("Model type must be cnn_spectral or mlp_parametric "
-                      " or mlp_spectral"))
+                       "or mlp_spectral"))
 
     # call the main program
     main()

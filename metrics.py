@@ -20,6 +20,12 @@ def mape(y_true, y_pred):
     y_true, y_pred = np.array(y_true), np.array(y_pred)
     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
+def HH(y_true, y_pred):
+    y_true, y_pred = np.array(y_true), np.array(y_pred)
+    HH = np.sqrt(np.sum((y_true-y_pred)**2) / np.sum(y_true*y_pred))
+    return HH
+
+
 
 def process(df, subset, variable):
     "Print the metrics on the screen."
@@ -50,16 +56,23 @@ def process(df, subset, variable):
     r_ww, _ = pearsonr(df1["{}_buoy".format(variable)],
                        df1["{}_wavewatch".format(variable)])
 
+    hh_ml = HH(df1["{}_buoy".format(variable)],
+               df1["{}_prediction".format(variable)])
+    hh_ww = HH(df1["{}_buoy".format(variable)],
+               df1["{}_wavewatch".format(variable)])
+
     X = np.vstack([rmse_ww, rmse_ml,
                    mae_ww, mae_ml,
                    mape_ww, mape_ml,
                    bias_ww, bias_ml,
-                   r_ww, r_ml]).T
+                   r_ww, r_ml,
+                   hh_ww, hh_ml]).T
     cols = ["RMSE_WW3", "RMSE_ML",
             "MAE_WW3", "MAE_ML",
             "MAPE_WW3", "MAPE_ML",
             "BIAS_WW3", "BIAS_ML",
-            "BIAS_WW3", "BIAS_ML"]
+            "R_WW3", "R_ML",
+            "HH_WW3", "HH_ML"]
     table = pd.DataFrame(X, columns=cols)
     table.index = [variable + "_" + subset]
     # table.index.name = subset
@@ -90,8 +103,11 @@ def main():
     dfm = pd.concat([hs_train, tp_train, dp_train,
                      hs_valid, tp_valid, dp_valid,
                      hs_test, tp_test, dp_test])
+    dfm.index.name = "parameter"
 
     dfm.to_csv(args.output, float_format=("%.2f"))
+
+    print(dfm)
 
 
 if __name__ == '__main__':
