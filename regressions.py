@@ -31,6 +31,10 @@ def main():
     df_spc = pd.read_csv(args.input[1])
     df_cnn = pd.read_csv(args.input[2])
 
+    df_par = df_par.loc[df_par["subset"] == args.subset]
+    df_spc = df_spc.loc[df_spc["subset"] == args.subset]
+    df_cnn = df_cnn.loc[df_cnn["subset"] == args.subset]
+
     # open a new figure
     fig = plt.figure(figsize=(9, 12), constrained_layout=False)
     spec = gridspec.GridSpec(ncols=3, nrows=4, figure=fig)
@@ -155,6 +159,10 @@ if __name__ == '__main__':
     parser.add_argument("--input", "-i", nargs=3, action="store", dest="input",
                         required=True,
                         help="Input data MPL_PAR, MPL_SPC, CNN_SCP (.csv).",)
+
+    parser.add_argument("--subset", "-s", action="store", dest="subset",
+                        required=False, help="Either train, test or valid.",
+                        default="test")
 
     # output figure
     parser.add_argument("--output", "-o", action="store", dest="output",

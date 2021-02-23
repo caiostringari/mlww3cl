@@ -11,19 +11,19 @@ The  data is to heavy to be hosted by Github. Please use the links below to down
 [![](figures/google_drive_badge.svg)](https://drive.google.com/file/d/1fHsQECCZCBUwcljb1l7iUSWvwZqSlY1e/view?usp=sharing)
 
 
-## 1. Model Architecture
+## 1. MLP<sub>PAR</sub>
 
 Three models are architectures are available:
 
-### a) `MLP_PAR_HTD`
+### a) `MLP_PAR`
 
 Multilayer Perceptron (MLP) trained using integrated wave parameters (`Hm0`, `Tm01`, `Tm02`, `Dm`, `Spd`) and wind (`U10`, `V10`) as inputs.
 
-### b) `MLP_SPC_HTD`
+### b) MLP<sub>SPC</sub>
 
-Multilayer Perceptron (MLP) trained using the flattened wave spectrum as inputs.
+Multilayer Perceptron (MLP) trained using the flattened wave spectrum as input.
 
-### c) `CNN_SPC_HTD`
+### c) CNN<sub>SPC</sub>
 
 Convolutional Neural Network (CNN) based on the `VGG16` architecture and using the wave spectrum in two-dimensional form.
 
@@ -34,11 +34,11 @@ The neural nets look something like this:
 
 ## 2. Training
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JiNAzjf1RRQDTbYDpIfpez4g8rdZNYSv?usp=sharing) **\|** [![Jupyter Notebook](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](notebooks/train.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1R8tQAGzRFm7OGmLQNUzD8sVWzk9x6Vpf?usp=sharing) **\|** [![Jupyter Notebook](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](notebooks/train.ipynb)
 
 Training the models is done using the same script: ```train.py```. For help, do:
 
-```bash
+```bashs
 python train.py --help
 ```
 
@@ -104,6 +104,8 @@ python train.py --type "cnn_spectral" --model "CNN_SPC_HTD" -i "data/wave_data.c
 
 ### 3.1. Training curves
 
+(Click the figure to open an interactive session)
+
 [![](figures/tensorboard.png)](https://tensorboard.dev/experiment/1u57MejQQDGP2pr8JcM0Cg/)
 
 
@@ -115,7 +117,7 @@ tensorboard dev upload --logdir "logs/" --name "Improving WW3 Results with Machi
 
 To reproduce the results in the paper, do:
 
-#### a) `MLP_PAR`
+#### a) MLP<sub>PAR</sub>
 ```bash
 python metrics.py -i "data/predictions_mlp_par.csv" -o "data/metrics_mlp_par.csv"
 ```
@@ -149,7 +151,7 @@ python metrics.py -i "data/predictions_mlp_par.csv" -o "data/metrics_mlp_par.csv
 | Dm [Deg] | 17.89 | 9.35 | 13.84 | 7.13 | 5.36  | 2.87  | 10.35 | 0.13  | 0.75 | 0.9  |
 
 
-#### b) `MLP_SPC`
+#### b) MLP<sub>SPC</sub>
 ```bash
 python metrics.py -i "data/predictions_mlp_spc.csv" -o "data/metrics_mlp_spc.csv"
 ```
@@ -183,7 +185,7 @@ python metrics.py -i "data/predictions_mlp_spc.csv" -o "data/metrics_mlp_spc.csv
 | Dm [Deg] | 17.72 | 5.86 | 13.73 | 4.23 | 5.32  | 1.7   | 10.36 | -0.03 | 0.76 | 0.96 |
 
 
-#### c) `CNN_SPC`
+#### c) CNN<sub>SPC</sub>
 ```bash
 python metrics.py -i "data/predictions_cnn_spc.csv" -o "data/metrics_cnn_spc.csv"
 ```
