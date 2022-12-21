@@ -18,34 +18,50 @@ import seaborn as sns
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+
 sns.set_context("paper", font_scale=1.35, rc={"lines.linewidth": 2.0})
-sns.set_style("ticks", {"axes.linewidth": 2,
-                        "legend.frameon": True,
-                        "axes.facecolor": "w",
-                        "grid.color": "w"})
+sns.set_style(
+    "ticks",
+    {
+        "axes.linewidth": 2,
+        "legend.frameon": True,
+        "axes.facecolor": "w",
+        "grid.color": "w",
+    },
+)
 mpl.rcParams["axes.linewidth"] = 2
-mpl.rcParams['patch.edgecolor'] = "k"
+mpl.rcParams["patch.edgecolor"] = "k"
 
 
 def main():
     pass
 
 
-
-if __name__ == '__main__':
-
+if __name__ == "__main__":
 
     # Argument parser
     parser = argparse.ArgumentParser()
 
     # input data
-    parser.add_argument("--input", "-i", nargs=3, action="store", dest="input",
-                        required=True,
-                        help="Input data MPL_PAR, MPL_SPC, CNN_SCP (.csv).",)
+    parser.add_argument(
+        "--input",
+        "-i",
+        nargs=3,
+        action="store",
+        dest="input",
+        required=True,
+        help="Input data MPL_PAR, MPL_SPC, CNN_SCP (.csv).",
+    )
 
     # output figure
-    parser.add_argument("--output", "-o", action="store", dest="output",
-                        required=True, help="Output figure name (.png).",)
+    parser.add_argument(
+        "--output",
+        "-o",
+        action="store",
+        dest="output",
+        required=True,
+        help="Output figure name (.png).",
+    )
 
     args = parser.parse_args()
 
@@ -73,8 +89,7 @@ if __name__ == '__main__':
     ax11 = fig.add_subplot(spec[3, 1])
     ax12 = fig.add_subplot(spec[3, 2])
 
-    axes = [ax01, ax02, ax03, ax04, ax05, ax06,
-            ax07, ax08, ax09, ax10, ax11, ax12]
+    axes = [ax01, ax02, ax03, ax04, ax05, ax06, ax07, ax08, ax09, ax10, ax11, ax12]
     x = [0, 1, 2, 3]
     labels = [r"$WW3$", r"$MPL_{PAR}$", r"$MPL_{SPC}$", r"$CNN_{SPC}$"]
     colors = sns.color_palette("colorblind").as_hex()
@@ -160,14 +175,21 @@ if __name__ == '__main__':
         ax.set_xticks(x)
         ax.set_xticklabels("")
         sns.despine(ax=ax)
-        ax.set_ylim(ax.get_ylim()[0], 1.15*ax.get_ylim()[1])
-        ax.text(0.05, 0.975, "(" + ascii_lowercase[k] + ")", fontsize=14,
-                va="top", zorder=100, transform=ax.transAxes, ha="left",
-                bbox=dict(boxstyle="square", ec="none", fc="1", lw=1, alpha=0.7))
+        ax.set_ylim(ax.get_ylim()[0], 1.15 * ax.get_ylim()[1])
+        ax.text(
+            0.05,
+            0.975,
+            "(" + ascii_lowercase[k] + ")",
+            fontsize=14,
+            va="top",
+            zorder=100,
+            transform=ax.transAxes,
+            ha="left",
+            bbox=dict(boxstyle="square", ec="none", fc="1", lw=1, alpha=0.7),
+        )
     for ax in [ax10, ax11, ax12]:
         ax.set_xticklabels(labels, rotation=90)
 
     fig.tight_layout()
-    plt.savefig(args.output, dpi=300, pad_inches=0.1,
-                bbox_inches='tight')
+    plt.savefig(args.output, dpi=300, pad_inches=0.1, bbox_inches="tight")
     plt.show()
