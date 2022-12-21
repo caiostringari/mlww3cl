@@ -2,14 +2,6 @@
 
 This repository contains the models used in the paper: *Improving WaveWatchIII Hindcasts with Machine Learning* currently under review in *Coastal Engineering*.
 
-# Data
-
-The  data is to heavy to be hosted by Github. Please use the links below to download it.
-
-
-
-[![](figures/google_drive_badge.svg)](https://drive.google.com/file/d/1fHsQECCZCBUwcljb1l7iUSWvwZqSlY1e/view?usp=sharing)
-
 
 ## 1. Model architecture
 
@@ -33,6 +25,10 @@ The neural nets look something like this:
 
 
 ## 2. Training
+
+The training data is to heavy to be hosted by Github. Please use [this link](https://drive.google.com/drive/folders/1GRPjquNKz8qswjAzdon2TO1Q45O3oSdG?usp=share_link) to download it. The `train.py` script will automatically download data for you.
+
+
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1R8tQAGzRFm7OGmLQNUzD8sVWzk9x6Vpf?usp=sharing) **\|** [![Jupyter Notebook](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](notebooks/train.ipynb)
 
@@ -79,24 +75,24 @@ python train.py --help
 To obtain the results seen in the paper do:
 
 ```bash
-python train.py --type "mlp_parametric" --model "MLP_PAR_HTD" -i "data/wave_data.csv" --logdir  "logs/MLP_PAR" --epochs 2048 --layers 2 --neurons 512 --learning-rate 0.0001 --random-state 42 --test-size 0.25
+python train.py --type "mlp_parametric" --model "MLP_PAR_HTD" --logdir  "logs/MLP_PAR" --epochs 2048 --layers 2 --neurons 512 --learning-rate 0.0001 --random-state 42 --test-size 0.25
 ```
 
 ```bash
-python train.py --type "mlp_spectral" --model "MLP_SPC_HTD" -i "data/wave_data.csv" --logdir  "logs/MLP_SPC" --layers 3 --neurons 128 --epochs 1024 --learning-rate 0.0001 --random-state 42 --test-size 0.25
+python train.py --type "mlp_spectral" --model "MLP_SPC_HTD" --logdir  "logs/MLP_SPC" --layers 3 --neurons 128 --epochs 1024 --learning-rate 0.0001 --random-state 42 --test-size 0.25
 ```
 
 ```bash
-python train.py --type "cnn_spectral" --model "CNN_SPC_HTD" -i "data/wave_data.csv" --logdir "logs/CNN_SCP" --epochs 256 --batch-size 128
+python train.py --type "cnn_spectral" --model "CNN_SPC_HTD" --logdir "logs/CNN_SCP" --epochs 256 --batch-size 128
 ```
 
 ## 2.2. Pre-trained
 
-| Model                     | Link                                                                                                                     | Alternative link |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------- |
-| `MLP_PAR`           | [![](figures/google_drive_badge.svg)](https://drive.google.com/drive/folders/1alCK5D25gSZOG-FvdQ9TfhF_nPhaRBav?usp=sharing) | Upcoming                |
-| `MLP_SPC`           | [![](figures/google_drive_badge.svg)](https://drive.google.com/drive/folders/1Y6thNWlRbz1qLbfgpK9n-cDyjBqR7J3C?usp=sharing) | Upcoming                |
-| `CNN_PAR`             | [![](figures/google_drive_badge.svg)](https://drive.google.com/drive/folders/1gML_k8R3TxD7kcCdxsThX0rGPYrc4oWA?usp=sharing) | Upcoming                |
+| Model                     | Link                                                                                                                        |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `MLP_PAR`                 | [![](figures/google_drive_badge.svg)](https://drive.google.com/drive/folders/1alCK5D25gSZOG-FvdQ9TfhF_nPhaRBav?usp=sharing) |
+| `MLP_SPC`                 | [![](figures/google_drive_badge.svg)](https://drive.google.com/drive/folders/1Y6thNWlRbz1qLbfgpK9n-cDyjBqR7J3C?usp=sharing) |
+| `CNN_PAR`                 | [![](figures/google_drive_badge.svg)](https://drive.google.com/drive/folders/1gML_k8R3TxD7kcCdxsThX0rGPYrc4oWA?usp=sharing) |
 
 
 ## 3. Evaluation
