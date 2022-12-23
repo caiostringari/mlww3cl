@@ -22,6 +22,7 @@ def dir_diff(dir1, dir2):
 
     return res
 
+
 def main():
     # load the model
     model = keras.models.load_model(args.best_epoch)
@@ -57,7 +58,9 @@ def main():
         dm_cosx = np.cos(dm_rad)
 
         # build the target array
-        x = np.vstack([hs, t01, t02, spr, uwnd, vwnd, wdir, dm_sinx, dm_cosx, lon, lat]).T
+        x = np.vstack(
+            [hs, t01, t02, spr, uwnd, vwnd, wdir, dm_sinx, dm_cosx, lon, lat]
+        ).T
 
         cols = [
             "hs",
@@ -118,17 +121,17 @@ def main():
             tp_dif[t, :] = df_final["tp"].values - df["t01"].values
             dm_dif[t, :] = dir_diff(df_final["wdir"].values, df["wdir"].values)
 
-
     # save data for plotting
-    out = {"hs_diff": hs_dif,
-           "tp_diff": tp_dif,
-           "dir_diff": dm_dif,
-           "longitude": df_final["lon"].values,
-           "latitude":  df_final["lat"].values}
-    print(dm_dif.shape)
+    out = {
+        "hs_diff": hs_dif,
+        "tp_diff": tp_dif,
+        "dir_diff": dm_dif,
+        "longitude": df_final["lon"].values,
+        "latitude": df_final["lat"].values,
+    }
 
     # save the scalers
-    with open(args.output, 'wb') as handle:
+    with open(args.output, "wb") as handle:
         pickle.dump(out, handle)
 
 
@@ -151,7 +154,7 @@ if __name__ == "__main__":
         action="store",
         dest="dataset",
         required=True,
-        help="Input results from WW3 (.nc)."
+        help="Input results from WW3 (.nc).",
     )
 
     parser.add_argument(
@@ -159,7 +162,7 @@ if __name__ == "__main__":
         action="store",
         dest="hs_scaler",
         required=True,
-        help="HS scaler, comes from train.py."
+        help="HS scaler, comes from train.py.",
     )
 
     parser.add_argument(
@@ -167,7 +170,7 @@ if __name__ == "__main__":
         action="store",
         dest="tp_scaler",
         required=True,
-        help="Tp scaler, comes from train.py."
+        help="Tp scaler, comes from train.py.",
     )
 
     parser.add_argument(
@@ -175,7 +178,7 @@ if __name__ == "__main__":
         action="store",
         dest="output",
         required=True,
-        help="Output for plottting."
+        help="Output for plottting.",
     )
 
     args = parser.parse_args()

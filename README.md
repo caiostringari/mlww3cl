@@ -249,3 +249,22 @@ python timeseries.py -i "data/predictions_mlp_par.csv" "data/predictions_mlp_spc
 python timeseries.py -i "data/predictions_mlp_par.csv" "data/predictions_mlp_spc.csv" "data/predictions_cnn_spc.csv" --names "$MLP_{PAR}$" "$MLP_{SPC}$" "$CNN_{SPC}$" -ID "BCurau" -o "ALebu.png" --start "2011-12-01 00:00:00" --duration "60"
 ```
 ![](figures/ALebu.svg)
+
+### 3.4 Spatial Predictions
+
+As long as the variables used for training are available, our machine learning models can be applied to WW3 data spatially. We caution against this usage because the present models do not take latitude / longitude into consideration.
+
+Using the parametric MLP model (`MLP_par`), an example of applying it to the whole ww3 mesh and calculate the difference between the perditions and "raw" WW3 data would be:
+
+```bash
+predict_spatial.py --best_epoch "spatial_prediction/best_epoch_mlp_par.h5" --dataset "spatial_prediction/ww3_50_epochs.nc" --hs_scaler "spatial_prediction/hs_scaler.pkl" --tp_scaler "spatial_prediction/tp_scaler.pkl" --output "spatial_prediction/spatial_dif.pkl"
+```
+
+To plot the results:
+
+```bash
+plot_spatial.py -i "spatial_prediction/spatial_dif.pkl" -o "figures/spatial_plot.png"
+```
+
+
+![](figures/spatial_map.png)

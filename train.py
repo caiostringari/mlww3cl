@@ -491,11 +491,11 @@ def main():
         )
 
     # save the scalers
-    with open(X_scaler_out, 'wb') as handle:
+    with open(X_scaler_out, "wb") as handle:
         pickle.dump(xscaler, handle)
-    with open(hs_scaler_out, 'wb') as handle:
+    with open(hs_scaler_out, "wb") as handle:
         pickle.dump(hs_scaler, handle)
-    with open(tp_scaler_out, 'wb') as handle:
+    with open(tp_scaler_out, "wb") as handle:
         pickle.dump(tp_scaler, handle)
 
     # save the metrics

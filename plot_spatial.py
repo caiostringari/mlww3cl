@@ -50,7 +50,7 @@ def get_mesh():
 def main():
 
     # load data
-    with open(args.input, 'rb') as handle:
+    with open(args.input, "rb") as handle:
         inp = pickle.load(handle)
     longitude = inp["longitude"]
     latitude = inp["latitude"]
@@ -113,8 +113,8 @@ def main():
     # Dp
     idm = linear_interp(triang.x, triang.y, longitude, latitude, dm_diff)
     m = ax3.tripcolor(triang, idm, cmap="viridis", vmin=0, vmax=45)
-    ax3.set_title("Mean Wave Direcion ($D_m$) $[^{o}]$")
-    add_colorbar(fig, ax3, m, r"WWIII $D_{m}$ - $MLP_{par}$ $D_{m}$ [$^o$]")
+    # ax3.set_title("Mean Wave Direcion ($D_m$) $[^{o}]$")
+    add_colorbar(fig, ax3, m, r"WWIII $D_{m}$ - $MLP_{par}$ $D_{m}$ [$^o$]  $^*$")
 
     # draw map elements
     lon_formatter = LongitudeFormatter(
@@ -126,11 +126,12 @@ def main():
         # ax.set_global()
         ax.coastlines(resolution="auto", color="k")
         ax.add_feature(cfeature.LAND, color="0.3", zorder=10)
-
         ax.set_xticks(np.round(np.arange(min_lon, max_lon, 2)), crs=ccrs.PlateCarree())
         ax.set_yticks(np.round(np.arange(min_lat, max_lat, 2)), crs=ccrs.PlateCarree())
         ax.xaxis.set_major_formatter(lon_formatter)
         ax.yaxis.set_major_formatter(lat_formatter)
+        ax.set_xticks(np.round(np.arange(min_lon, max_lon, 2)), crs=ccrs.PlateCarree())
+
         ax.text(
             0.05,
             0.975,
@@ -144,9 +145,8 @@ def main():
         )
         k += 1
 
-    fname = "spatial_plot.png"
     plt.savefig(
-        fname,
+        args.output,
         dpi=300,
         transparent=False,
         facecolor=fig.get_facecolor(),
@@ -158,7 +158,6 @@ def main():
     plt.close()
 
 
-
 if __name__ == "__main__":
 
     # Argument parser
@@ -166,7 +165,8 @@ if __name__ == "__main__":
 
     # model
     parser.add_argument(
-        "--input", "-i",
+        "--input",
+        "-i",
         action="store",
         dest="input",
         required=True,
@@ -174,11 +174,12 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--output", "-o",
+        "--output",
+        "-o",
         action="store",
         dest="output",
         required=True,
-        help="Output figure name (.png)."
+        help="Output figure name (.png).",
     )
 
     args = parser.parse_args()
