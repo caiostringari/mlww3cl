@@ -26,6 +26,14 @@ The neural nets look something like this:
 
 ## 2. Training
 
+Make sure to clone the repository, and be in the same location as the code, then create a `conda` environment with this command:
+
+```bash
+conda env create -f env.yml
+```
+
+Make sure to have this environment activated while running the provided scripts. Only `Linux` is supported.
+
 The training data is to heavy to be hosted by Github. Please use [this link](https://drive.google.com/drive/folders/1GRPjquNKz8qswjAzdon2TO1Q45O3oSdG?usp=share_link) to download it. The `train.py` script will automatically download data for you.
 
 
@@ -34,9 +42,12 @@ The training data is to heavy to be hosted by Github. Please use [this link](htt
 
 Training the models is done using the same script: ```train.py```. For help, do:
 
-```bashs
+```bash
 python train.py --help
 ```
+
+Updating a pre-trained the model can be done by following the example: ```train_and_update.py```. For help, do:
+
 
 <details>
   <summary> Options are (click to expand): </summary>
